@@ -17,7 +17,16 @@ height:100vh;
 position:relative ; 
 margin: auto; 
 top:126px;
-width:1280px;
+width:800px;
+height:500px;
+}
+
+.square { 
+  background-color: red ; 
+  border:1px solid white ; 
+  float:left;
+  box-sizing: border-box;
+
 }
 
 
@@ -30,63 +39,8 @@ width:1280px;
 <div id = "snake__container"> 
     
 </div>
-  <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-  <script>
-  
-  
-  $(document).ready(function() { 
-  	console.log('ready');
-	var testGrid = new Grid(40); 
-	render(testGrid);
-  
-  });
-  
-  var Class = function(methods) {   
-    var klass = function() {    
-        this.initialize.apply(this, arguments);          
-    };  
-    
-    for (var property in methods) { 
-       klass.prototype[property] = methods[property];
-    }
-          
-    if (!klass.prototype.initialize) klass.prototype.initialize = function(){};      
-    
-    return klass;    
-};
-
-
-  var Grid = Class({ 
-  	initialize:  function(size) { 
-		this.size = size;
-		
-		this.slot = []; 
-		for (x = 0; x < size; x++) { 
-			for (y = 0; y < size; y++ ) { 
-				if (!this.slot[x]) this.slot[x] = [] ;
-				this.slot[x][y] = " " ;
-			}
-		
-		}
-	}
-  });
-  
-  function render(grid){ 
-  	var squareSize = $("#snake__container").width() / grid.size 
-	for (x = 0; x < grid.size; x++) { 
-			for (y = 0; y < grid.size; y++ ) { 
-
-				var $div = $("<div>", {id: "square" + x + y, class: "square"});
-				$("#snake__container").append($div);
-			}
-		
-		}
-  
-  }  
-  
- 
-  	  
-    </script>
+  <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+  <script src="app.js"></script>
 </body>
 
 
