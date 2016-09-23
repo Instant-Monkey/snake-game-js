@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Snake </title>
+
+<style> 
+
+body {
+	
+height:100vh; 
+
+}
+
+#snake__container { 
+
+position:relative ; 
+margin: auto; 
+top:126px;
+width:1280px;
+}
+
+
+</style>
+</head>
+
+<body>
+<h1> </h1>
+
+<div id = "snake__container"> 
+    
+</div>
+  <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+  <script>
+  
+  
+  $(document).ready(function() { 
+  	console.log('ready');
+	var testGrid = new Grid(40); 
+	render(testGrid);
+  
+  });
+  
+  var Class = function(methods) {   
+    var klass = function() {    
+        this.initialize.apply(this, arguments);          
+    };  
+    
+    for (var property in methods) { 
+       klass.prototype[property] = methods[property];
+    }
+          
+    if (!klass.prototype.initialize) klass.prototype.initialize = function(){};      
+    
+    return klass;    
+};
+
+
+  var Grid = Class({ 
+  	initialize:  function(size) { 
+		this.size = size;
+		
+		this.slot = []; 
+		for (x = 0; x < size; x++) { 
+			for (y = 0; y < size; y++ ) { 
+				if (!this.slot[x]) this.slot[x] = [] ;
+				this.slot[x][y] = " " ;
+			}
+		
+		}
+	}
+  });
+  
+  function render(grid){ 
+  	var squareSize = $("#snake__container").width() / grid.size 
+	for (x = 0; x < grid.size; x++) { 
+			for (y = 0; y < grid.size; y++ ) { 
+
+				var $div = $("<div>", {id: "square" + x + y, class: "square"});
+				$("#snake__container").append($div);
+			}
+		
+		}
+  
+  }  
+  
+ 
+  	  
+    </script>
+</body>
+
+
+</html>
