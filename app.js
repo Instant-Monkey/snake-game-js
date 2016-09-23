@@ -4,6 +4,8 @@ $(document).ready(function() {
 	snake = new Snake(10,5,"r");
 	render(snakeGrid);
 	renderSnake(snake);
+	createRandomBall(snakeGrid);
+	
 
 	$(document).keydown(function(event){
     var keyMap = {left: 37, up: 38, right: 39, down: 40, space: 32 } ;
@@ -48,6 +50,7 @@ $(document).ready(function() {
 	function Grid(sizeX,sizeY){ 
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
+
 		
 		var slotEmplacement = new Array(sizeY);
 		for (var i = 0; i < sizeY; i++) {
@@ -149,7 +152,7 @@ $(document).ready(function() {
 			break; 
 
 		}
-		checkIfLost(snakeEmplacement);
+		checkIfBall(snakeEmplacement);
 		snake.updateSnakeEmplacement(snakeEmplacement);
 		renderSnake(snake);
 		
@@ -175,19 +178,53 @@ $(document).ready(function() {
   function renderOneCaseSnake(x,y) { 
   	var id = $("#squareX" + x + "Y"+ y) ;
 
-  	id.css({backgroundColor: "red"});
+  	id.addClass("snake-is-on");
   	
   	
   }
 
   function eraseSnakeOneCase(x,y) { 
-  	$("#squareX" + x + "Y"+ y).css({backgroundColor: "white"});
+  	$("#squareX" + x + "Y"+ y).removeClass("snake-is-on");
   }
 
-  function checkIfLost(snakeEmplacement) { 
+  function createRandomBall(grid) { 
+  	var x = Math.floor(Math.random() * grid.sizeX) + 0 ;  
+  	var y = Math.floor(Math.random() * grid.sizeY) + 0 ;   
+  	console.log(x); 
+  	console.log(y);
+
+  	if ($("#squareX" + x + "Y"+ y).hasClass("snake-is-on")) { 
+  		setTimeout(function() { 
+  			console.log("it's red!");
+  			createRandomBall(grid);
+  			}, 100 ) ;  
+  	} else { 
+  		$("#squareX" + x + "Y"+ y).addClass("ball-is-on");
+  		grid.readSlot(y,x).content = "ball";
+  	}
+  }
+
+  function checkIfBall(se) { 
+  	var x = se[0][0]; 
+  	var y = se[0][1]; 
+  	checkIfLost(x,y,se);
+  	if (snakeGrid.readSlot(y,x).content == "ball" ) { 
+  		snakeGrid.readSlot(y,x).content = " ";
+  		eatBall();																													
+  	}																																	
+  }
+
+  function eatBall() { 
+  	var snakeArray = snake.getCoordSnake() ; 
+  	snakeArray.push([]);
+  	snake.updateSnakeEmplacement(snakeArray);
+  	$(".ball-is-on").removeClass("ball-is-on");
+  	createRandomBall(snakeGrid); 
+  }
+
+  function checkIfLost(x,y, snakeEmplacement)																																																																																																																																																																																																																 { 
   	
-  		var x = snakeEmplacement[0][0];
-  		var y = snakeEmplacement[0][1];
+  		
   		if (x > snakeGrid.sizeX || x < 0 || y > snakeGrid.sizeY || y < 0) { 
   			displayLost();
 
